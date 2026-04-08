@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "658855512844",
+    "project_id": "keepnot-a9ea9",
+    "storage_bucket": "keepnot-a9ea9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658855512844:android:3ef06fa5537970d8531729",
+        "android_client_info": {
+          "package_name": "com.example.keepnot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3iThCwyVfxaD1G-NjDOLRLQwgcy1xFaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
