@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Not Ekle</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+        .form-card { background: white; border: 1px solid #ddd; padding: 30px; border-radius: 8px; width: 300px; }
+        input, textarea { width: 100%; margin-bottom: 15px; padding: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #2980b9; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="form-card">
+    <h2>Yeni Not Oluştur</h2>
+    <input type="text" id="note-title" placeholder="Başlık">
+    <textarea id="note-content" placeholder="Not içeriği..."></textarea>
+    <button id="save-button" onclick="alert('Not Kaydedildi!'); window.location.href='index.html'">Kaydet</button>
+</div>
+</body>
+</html>

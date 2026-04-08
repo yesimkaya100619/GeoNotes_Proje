@@ -86,6 +86,7 @@ Bu proje, modern mobil uygulama geliştirme süreçlerinde:
 konularında pratik yapmak amacıyla geliştirilmiştir.
 
 
+<<<<<<< HEAD
 📍 GeoNotes
 Flutter ve Spring Boot ile geliştirilmiş konum tabanlı not paylaşım mobil uygulaması.
 
@@ -174,3 +175,5 @@ Bu proje, modern mobil uygulama geliştirme süreçlerinde:
 konularında pratik yapmak amacıyla geliştirilmiştir.
 
 
+=======
+>>>>>>> b310199c33cf5f6ba421dea99aff4d6f463935de

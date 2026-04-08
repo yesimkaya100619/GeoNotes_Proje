@@ -1,0 +1,84 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'maven_3'
+    }
+
+    stages {
+        stage('1- Hazırlık (Checkout)') {
+            steps {
+                deleteDir()
+                checkout scm
+            }
+        }
+
+        stage('2- Derleme (Build)') {
+            steps {
+                sh 'mvn clean compile -DskipTests'
+            }
+        }
+
+        stage('3- Birim Testler (Unit Tests)') {
+            steps {
+                sh 'mvn test -Dgroups="unit"'
+            }
+        }
+
+        stage('4- Entegrasyon Testleri (Integration Tests)') {
+            steps {
+                sh 'mvn verify -DskipITs=false -DskipUTs=true'
+            }
+        }
+
+        stage('5- Sistem Dağıtımı (Deployment)') {
+            steps {
+                script {
+                    echo "Sistem Docker üzerine dağıtılıyor..."
+
+                    try {
+                        sh 'docker --version'
+
+                        echo "Çakışan veya eski konteynerler temizleniyor..."
+                        // Önce down yapıyoruz, sonra ismi çakışanları zorla siliyoruz
+                        sh 'docker-compose down || docker compose down || true'
+                        sh 'docker rm -f geonotes-backend geonotes-db || true'
+
+                        echo "Sadece Uygulama ve DB başlatılıyor (Jenkins hariç)..."
+                        // Burada db ve app servislerini ismen çağırıyoruz ki Jenkins çakışmasın
+                        sh 'docker-compose up -d --build db app || docker compose up -d --build db app'
+
+                    } catch (Exception e) {
+                        error "Dağıtım başarısız! Hata: ${e.message}"
+                    }
+
+                    echo "Uygulamanın hazır olması için bekleniyor..."
+                    sleep 30
+                }
+            }
+        }
+
+        stage('6- Selenium Testleri (UI Tests)') {
+            steps {
+                script {
+                    try {
+                        echo "Selenium UI testleri başlatılıyor..."
+                        sh 'mvn test -Dtest=com.ydg.geonotes.selenium.GeoNotesSeleniumTest -DfailIfNoTests=false'
+                    } catch (Exception e) {
+                        echo "Selenium testleri sırasında hata oluştu!"
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline başarıyla tamamlandı!'
+        }
+        failure {
+            echo 'Pipeline başarısız oldu. Jenkins loglarını ve Docker durumunu kontrol edin.'
+        }
+    }
+}
